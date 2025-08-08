@@ -1,29 +1,22 @@
-name: PR CI com Databricks CLI e Assets Bundles
+name: PR CI com Databricks CLI
 
 on:
   pull_request:
 
 jobs:
-  test-databricks:
+  dabs-ci:
     runs-on: ubuntu-latest
 
     steps:
-      # Passo 1: Checkout do código
-      - name: Checkout repository
+      - name: Checkout do código
         uses: actions/checkout@v3
 
-      # Passo 2: Instalar Python (se necessário)
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.8'  # ajuste conforme seu projeto
+      - name: Instalar Databricks CLI (versão standalone)
+        shell: bash
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
 
-      # Passo 3: Instalar Databricks CLI
-      - name: Install Databricks CLI
-        run: pip install databricks-cli
-
-      # Passo 4: Configurar Databricks CLI com token e host
-      - name: Configure Databricks CLI
+      - name: Configurar Databricks CLI
         env:
           DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
@@ -33,14 +26,6 @@ jobs:
           $DATABRICKS_TOKEN
           EOF
 
-      # Passo 5: Rodar testes (ajuste conforme seu projeto)
-      # - name: Run tests
-      #   run: |
-      #     # Exemplo: rodar testes Python com pytest
-      #     if [ -f "requirements.txt" ]; then pip install -r requirements.txt; fi
-      #     if command -v pytest > /dev/null; then pytest; else echo "pytest não encontrado"; fi
-
-      # Passo 6: Executar comandos do Databricks Assets Bundles
-      - name: Run Databricks Assets Bundles commands
-        run: 
-          databricks bundle validate # Exemplo: validar assets bundles (ajuste conforme seu uso)
+      - name: Rodar comandos Databricks CLI
+        run: |
+          databricks bundle validate
