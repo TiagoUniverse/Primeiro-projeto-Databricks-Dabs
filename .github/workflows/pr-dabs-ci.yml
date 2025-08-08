@@ -42,6 +42,5 @@ jobs:
 
       # Passo 6: Executar comandos do Databricks Assets Bundles
       - name: Run Databricks Assets Bundles commands
-        run: |
-          # Exemplo: validar assets bundles (ajuste conforme seu uso)
-          databricks-assets-bundles validate
+        run: 
+          databricks-assets-bundles validate # Exemplo: validar assets bundles (ajuste conforme seu uso)
