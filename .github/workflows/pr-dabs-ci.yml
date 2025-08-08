@@ -1,0 +1,38 @@
+name: PR CI com DABS no Databricks
+
+on:
+  pull_request:
+    branches:
+      - main  # ou sua branch principal
+
+jobs:
+  dabs-ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Passo 1: Baixar o código do PR
+      - name: Checkout do código
+        uses: actions/checkout@v3
+
+      # Passo 2: Instalar Python (DABS usa Python)
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.8'  # ou a versão que seu projeto usa
+
+      # Passo 3: Instalar DABS
+      - name: Instalar DABS
+        run: pip install dabs
+
+      # Passo 4: Configurar variável de ambiente com token do Databricks
+      - name: Configurar token Databricks
+        env:
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+        run: echo "Token configurado"
+
+      # Passo 5: Rodar DABS para validar/testar seu projeto
+      - name: Executar DABS CI
+        env:
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}  # URL do seu workspace Databricks
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+        run: dabs ci
