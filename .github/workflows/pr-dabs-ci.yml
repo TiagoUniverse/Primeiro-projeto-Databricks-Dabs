@@ -11,6 +11,11 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v3
 
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.8'  # adjust according to your project
+          
       - name: Instalar Databricks CLI (versão standalone)
         shell: bash
         run: |
@@ -26,6 +31,6 @@ jobs:
           $DATABRICKS_TOKEN
           EOF
 
-      - name: Rodar comandos Databricks CLI
+      - name: Verificação comandos Databricks CLI
         run: |
           databricks bundle validate
