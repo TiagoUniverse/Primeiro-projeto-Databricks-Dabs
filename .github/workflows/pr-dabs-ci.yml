@@ -2,8 +2,8 @@ name: PR CI com DABS no Databricks
 
 on:
   pull_request:
-    branches:
-      - main  # ou sua branch principal
+    #branches:
+     # - main  # ou sua branch principal
 
 jobs:
   dabs-ci:
